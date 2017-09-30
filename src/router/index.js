@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// @ is replaced with src by Webpack
-import Home from '@/components/home/Home';
+// @ is replaced with src
+import Home from '@/components/Home';
 import SpaceInvaders from '@/components/space-invaders/SpaceInvaders';
 
 Vue.use(Router);
