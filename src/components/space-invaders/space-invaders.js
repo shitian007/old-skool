@@ -1,5 +1,6 @@
 import { constants, initMethods } from './js/init.js';
-import { playerShip } from './js/player_methods.js';
+import { playerShip } from './js/player.js';
+import { enemySaucer } from './js/enemy.js';
 
 export default {
   name: 'space-invaders',
@@ -27,12 +28,18 @@ export default {
   },
   mounted() {
     let self = this;
-    // Get context and initialize
+    // Get context and initialize canvas
     this.context = this.$refs.canvas.getContext('2d');
     initMethods.init(this.context);
-    // Instantiate player and show it
+    // Instantiate player and enemies
     this.player= new playerShip(this.context);
     this.player.show();
+    for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 12; j++) {
+        this.enemies.push(new enemySaucer(this.context, (j+1) * 50, (i+1) * 25));
+        this.enemies[i * 12 + j].show();
+      }
+    }
     // Capture user keypress
     window.addEventListener("keypress", function(e) {
       self.keyInput(e);
