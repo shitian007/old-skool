@@ -4,10 +4,10 @@ let constants = {
 };
 
 let initMethods = {
-  init(canvas) {
-    canvas.width = constants.WIDTH;
-    canvas.height = constants.HEIGHT;
-    canvas.style.backgroundColor = 'rgba(158, 167, 184, 0.2)';
+  init(context) {
+    context.canvas.width = constants.WIDTH;
+    context.canvas.height = constants.HEIGHT;
+    context.fillRect(10, 10, 1000, 400);
   }
 };
 
