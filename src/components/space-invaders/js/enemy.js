@@ -14,11 +14,14 @@ export class enemySaucer {
     this.context.fillRect(this.x, this.y, 30, 20);
   }
 
-  move(dir) {
-    // Remove previous drawing of enemy saucer
-    this.context.clearRect(this.x, constants.HEIGHT - 22, 20, 20);
+  clear() {
+    this.context.clearRect(this.x, this.y, 20, 20);
     this.context.fillStyle = 'black';
-    this.context.fillRect(this.x, constants.HEIGHT - 22, 20, 20);
+    this.context.fillRect(this.x, this.y, 20, 20);
+  }
+
+  // Enemies can only move sideways and downwards
+  move(dir) {
     // Redraw enemy saucer
     if (dir == "right") {
       this.x += 5;

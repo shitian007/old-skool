@@ -13,11 +13,15 @@ export class playerShip {
     this.context.fillRect(this.x, constants.HEIGHT - 22, 20, 20);
   }
 
-  move(dir) {
-    // Remove previous drawing of player ship
+  clear() {
     this.context.clearRect(this.x, constants.HEIGHT - 22, 20, 20);
     this.context.fillStyle = 'black';
     this.context.fillRect(this.x, constants.HEIGHT - 22, 20, 20);
+  }
+
+  move(dir) {
+    // Remove previous drawing of player ship
+    this.clear();
     // Draw player ship at updated position
     if (dir == "right") {
       this.x += 5;
