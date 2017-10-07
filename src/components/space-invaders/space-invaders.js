@@ -37,16 +37,7 @@ export default {
       } else if (input == " ") {
         let playerProjectile = this.player.shoot();
         this.playerProjectiles.push(playerProjectile);
-        this.setProjectileInterval(playerProjectile);
       }
-    },
-    setProjectileInterval(projectile) {
-      let timerID = window.setInterval(
-        function() {
-          projectile.move();
-        }, 100
-      );
-      this.pPIntervalIDs.push(timerID);
     },
     enemyMove() {
       let xMax = 0;
@@ -67,6 +58,18 @@ export default {
         this.enemyMovement.dir == 1 ? this.enemies[i].move("right") : this.enemies[i].move("left");
       }
       this.enemyMovement.down = false;
+    },
+    projectileMove() {
+      for (var i = 0; i < this.playerProjectiles.length; i++) {
+        let projectile = this.playerProjectiles[i];
+        projectile.move();
+        // Remove projectile if above canvas
+        if (projectile.y < 15) {
+          projectile.clear();
+          this.playerProjectiles.splice(i, 1);
+        } else {
+        }
+      }
     }
   },
   mounted() {
@@ -98,6 +101,7 @@ export default {
       if (self.playerMovement == "r") self.player.move("right");
       if (self.playerMovement == "l") self.player.move("left");
       self.enemyMove();
+      self.projectileMove();
     }, 50);
   }
 };
