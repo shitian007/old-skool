@@ -10,6 +10,7 @@ export default {
       context: null,
       player: null,
       health: 5,
+      playerMovement: null,
       enemies: [],
       playerProjectiles: [],
       pPIntervalIDs: [],
@@ -19,12 +20,19 @@ export default {
     };
   },
   methods: {
-    keyInput(e) {
+    keyUp(e) {
+      let input = e.key;
+      if (input == "ArrowLeft" || input == "ArrowRight") {
+        this.playerMovement = null;
+      }
+    },
+    keyDown(e) {
+      let self = this;
       let input = e.key;
       if (input == "ArrowLeft") {
-        this.player.move("left");
+        this.playerMovement = this.player.x > 10 ? "l" : null;
       } else if (input == "ArrowRight") {
-        this.player.move("right");
+        this.playerMovement = this.player.x < 680 ? "r" : null;
       } else if (input == " ") {
         let playerProjectile = this.player.shoot();
         this.playerProjectiles.push(playerProjectile);
@@ -50,19 +58,23 @@ export default {
     this.player.show();
     // Initialize enemies
     for (var i = 0; i < 4; i++) {
+      this.bunkers.push(new Bunker(this.context, 40 + i * 180));
+      this.bunkers[i].show();
       for (var j = 0; j < 12; j++) {
         this.enemies.push(new EnemySaucer(this.context, (j+1) * 50, (i+1) * 25));
         this.enemies[i * 12 + j].show();
       }
     }
-    // Initialize bunkers
-    for (i = 0; i < 4; i++) {
-      this.bunkers.push(new Bunker(this.context, 40 + i * 180));
-      this.bunkers[i].show();
-    }
     // Capture user keypress
     window.addEventListener("keydown", function(e) {
-      self.keyInput(e);
+      self.keyDown(e);
     });
+    window.addEventListener("keyup", function(e) {
+      self.keyUp(e);
+    });
+    window.setInterval(function() {
+      if (self.playerMovement == "r") self.player.move("right");
+      if (self.playerMovement == "l") self.player.move("left");
+    }, 50);
   }
 };
