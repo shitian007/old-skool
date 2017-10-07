@@ -32,14 +32,18 @@ export default {
       let self = this;
       let input = e.key;
       if (input == "ArrowLeft") {
-        this.playerMovement = this.player.x > 10 ? "l" : null;
+        this.playerMovement = "l";
       } else if (input == "ArrowRight") {
-        this.playerMovement = this.player.x < 680 ? "r" : null;
+        this.playerMovement = "r";
       } else if (input == " " && this.shotTimer == 0) {
         let playerProjectile = this.player.shoot();
         this.playerProjectiles.push(playerProjectile);
         this.shotTimer = 10;
       }
+    },
+    playerMove() {
+      if (this.playerMovement == "r" && this.player.x < 675) this.player.move("right");
+      if (this.playerMovement == "l" && this.player.x > 15) this.player.move("left");
     },
     enemyMove() {
       let xMax = 0;
@@ -98,7 +102,7 @@ export default {
       this.bunkers.push(new Bunker(this.context, 40 + i * 180));
       this.bunkers[i].show();
       for (var j = 0; j < 12; j++) {
-        this.enemies.push(new EnemySaucer(this.context, (j+1) * 50, (i+1) * 25));
+        this.enemies.push(new EnemySaucer(this.context, (j+1) * 50, 120 - ((i+1) * 25)));
         this.enemies[i * 12 + j].show();
       }
     }
@@ -112,10 +116,9 @@ export default {
     // Interval updates
     window.setInterval(function() {
       if (self.shotTimer > 0) self.shotTimer--;
-      if (self.playerMovement == "r") self.player.move("right");
-      if (self.playerMovement == "l") self.player.move("left");
-      self.enemyMove();
+      self.playerMove();
       self.projectileMove();
-    }, 25);
+      self.enemyMove();
+    }, 15);
   }
 };
