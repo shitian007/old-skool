@@ -23,8 +23,9 @@ export class Projectile {
     // Remove previous projectile drawing
     this.clear();
     // Move projectile up
-    this.y -= 5;
+    this.y -= 10;
     // Draw projectile at updated position
     this.show();
   }
+
 }

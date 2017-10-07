@@ -33,4 +33,9 @@ export class EnemySaucer {
     }
     this.show();
   }
+
+  // test if projectile hits ship
+  hit(projectile) {
+    return Math.abs(projectile.x - this.x) < 22 && projectile.y - this.y < 15;
+  }
 }

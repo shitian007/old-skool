@@ -66,12 +66,23 @@ export default {
         let projectile = this.playerProjectiles[i];
         projectile.move();
         // Remove projectile if above canvas
-        if (projectile.y < 15) {
-          projectile.clear();
-          this.playerProjectiles.splice(i, 1);
+        if (projectile.y < 20) {
+          this.remove(this.playerProjectiles, i, projectile);
         } else {
+          for (var j = 0; j < this.enemies.length; j++) {
+            if (this.enemies[j].hit(projectile)) {
+              this.remove(this.enemies, j, this.enemies[j]);
+              this.remove(this.playerProjectiles, i, projectile);
+              break;
+            }
+          }
         }
       }
+    },
+    // Helper remove
+    remove(arr, index, obj) {
+      obj.clear();
+      arr.splice(index, 1);
     }
   },
   mounted() {
@@ -105,6 +116,6 @@ export default {
       if (self.playerMovement == "l") self.player.move("left");
       self.enemyMove();
       self.projectileMove();
-    }, 50);
+    }, 25);
   }
 };
