@@ -12,6 +12,7 @@ export default {
       health: 5,
       playerMovement: null,
       enemies: [],
+      enemyMovement: { dir: 1, down: false},
       playerProjectiles: [],
       pPIntervalIDs: [],
       enemyProjectiles: [],
@@ -46,6 +47,26 @@ export default {
         }, 100
       );
       this.pPIntervalIDs.push(timerID);
+    },
+    enemyMove() {
+      let xMax = 0;
+      let xMin = 500;
+      for (var i = 0; i < this.enemies.length; i++) {
+        xMax = this.enemies[i].x > xMax ? this.enemies[i].x : xMax;
+        xMin = this.enemies[i].x < xMin ? this.enemies[i].x : xMin;
+      }
+      if (xMax > 660 && !this.enemyMovement.down) {
+        this.enemyMovement.dir = -1; this.enemyMovement.down = true;
+      } else if (xMin < 20 && !this.enemyMovement.down) {
+        this.enemyMovement.dir = 1; this.enemyMovement.down = true;
+      }
+      for (i = 0; i < this.enemies.length; i++) {
+        if (this.enemyMovement.down) {
+          this.enemies[i].move("down");
+        }
+        this.enemyMovement.dir == 1 ? this.enemies[i].move("right") : this.enemies[i].move("left");
+      }
+      this.enemyMovement.down = false;
     }
   },
   mounted() {
@@ -72,9 +93,11 @@ export default {
     window.addEventListener("keyup", function(e) {
       self.keyUp(e);
     });
+    // Interval updates
     window.setInterval(function() {
       if (self.playerMovement == "r") self.player.move("right");
       if (self.playerMovement == "l") self.player.move("left");
+      self.enemyMove();
     }, 50);
   }
 };

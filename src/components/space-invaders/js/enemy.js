@@ -15,20 +15,21 @@ export class EnemySaucer {
   }
 
   clear() {
-    this.context.clearRect(this.x, this.y, 20, 20);
+    this.context.clearRect(this.x, this.y, 30, 20);
     this.context.fillStyle = 'black';
-    this.context.fillRect(this.x, this.y, 20, 20);
+    this.context.fillRect(this.x, this.y, 30, 20);
   }
 
   // Enemies can only move sideways and downwards
   move(dir) {
+    this.clear();
     // Redraw enemy saucer
     if (dir == "right") {
-      this.x += 5;
+      this.x += 1;
     } else if (dir == "left") {
-      this.x -= 5;
+      this.x -= 1;
     } else if (dir == "down") {
-      this.y -= 10;
+      this.y += 5;
     }
     this.show();
   }
