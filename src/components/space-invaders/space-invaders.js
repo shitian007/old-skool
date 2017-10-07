@@ -17,7 +17,8 @@ export default {
       pPIntervalIDs: [],
       enemyProjectiles: [],
       ePIntervalIDs: [],
-      bunkers: []
+      bunkers: [],
+      shotTimer: 0
     };
   },
   methods: {
@@ -34,9 +35,10 @@ export default {
         this.playerMovement = this.player.x > 10 ? "l" : null;
       } else if (input == "ArrowRight") {
         this.playerMovement = this.player.x < 680 ? "r" : null;
-      } else if (input == " ") {
+      } else if (input == " " && this.shotTimer == 0) {
         let playerProjectile = this.player.shoot();
         this.playerProjectiles.push(playerProjectile);
+        this.shotTimer = 10;
       }
     },
     enemyMove() {
@@ -98,6 +100,7 @@ export default {
     });
     // Interval updates
     window.setInterval(function() {
+      if (self.shotTimer > 0) self.shotTimer--;
       if (self.playerMovement == "r") self.player.move("right");
       if (self.playerMovement == "l") self.player.move("left");
       self.enemyMove();
