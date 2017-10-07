@@ -1,6 +1,6 @@
 import { constants } from './init.js';
 
-export class enemySaucer {
+export class EnemySaucer {
 
   constructor(context, x, y) {
     this.x = x;

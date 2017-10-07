@@ -1,4 +1,5 @@
 import { constants } from './init.js';
+import { Projectile } from './projectile.js';
 
 export class playerShip {
 
@@ -30,5 +31,11 @@ export class playerShip {
     }
     this.show();
   }
+
+  shoot() {
+    let pewPew = new Projectile(this.context, this.x);
+    return pewPew;
+  }
+
 
 }

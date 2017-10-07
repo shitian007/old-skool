@@ -10,9 +10,11 @@ export default {
       context: null,
       player: null,
       health: 5,
-      playerProjectiles: [],
       enemies: [],
-      projectiles: [],
+      playerProjectiles: [],
+      pPIntervalIDs: [],
+      enemyProjectiles: [],
+      ePIntervalIDs: [],
       bunkers: []
     };
   },
@@ -24,8 +26,18 @@ export default {
       } else if (input == "ArrowRight") {
         this.player.move("right");
       } else if (input == " ") {
-        // this.player.shoot();
+        let playerProjectile = this.player.shoot();
+        this.playerProjectiles.push(playerProjectile);
+        this.setProjectileInterval(playerProjectile);
       }
+    },
+    setProjectileInterval(projectile) {
+      let timerID = window.setInterval(
+        function() {
+          projectile.move();
+        }, 100
+      );
+      this.pPIntervalIDs.push(timerID);
     }
   },
   mounted() {
@@ -49,7 +61,7 @@ export default {
       this.bunkers[i].show();
     }
     // Capture user keypress
-    window.addEventListener("keypress", function(e) {
+    window.addEventListener("keydown", function(e) {
       self.keyInput(e);
     });
   }
