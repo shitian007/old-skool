@@ -99,11 +99,18 @@ export default {
     this.player.show();
     // Initialize enemies
     for (var i = 0; i < 4; i++) {
-      this.bunkers.push(new Bunker(this.context, 40 + i * 180));
-      this.bunkers[i].show();
       for (var j = 0; j < 12; j++) {
         this.enemies.push(new EnemySaucer(this.context, (j+1) * 50, 120 - ((i+1) * 25)));
         this.enemies[i * 12 + j].show();
+      }
+    }
+    // Initialize bunkers
+    for (var k = 0; k < 5; k++) {
+      for (i = 0; i < 5; i++) {
+        for (j = 0; j < 8; j++) {
+          this.bunkers.push(new Bunker(this.context, 60 + (k * 125)  + (j * 10), 290 + (i * 10)));
+          this.bunkers[(k * 40) + i * 8 + j].show();
+        }
       }
     }
     // Capture user keypress
