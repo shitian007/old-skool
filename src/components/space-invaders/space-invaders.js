@@ -73,13 +73,33 @@ export default {
         if (projectile.y < 20) {
           this.remove(this.playerProjectiles, i, projectile);
         } else {
-          for (var j = 0; j < this.enemies.length; j++) {
-            if (this.enemies[j].hit(projectile)) {
-              this.remove(this.enemies, j, this.enemies[j]);
-              this.remove(this.playerProjectiles, i, projectile);
-              break;
-            }
-          }
+          // Check bunker collision
+          projectile.x < 140 ? this.bunkerCollision(0, i, projectile) :
+            projectile.x < 265 ? this.bunkerCollision(1, i, projectile) :
+            projectile.x < 390 ? this.bunkerCollision(2, i, projectile) :
+            projectile.x < 515 ? this.bunkerCollision(3, i, projectile) :
+            this.bunkerCollision(4, i, projectile);
+          // Check enemy collision
+          if (projectile) this.enemyCollision(i, projectile);
+        }
+      }
+    },
+    enemyCollision(index, projectile) {
+      for (var i = 0; i < this.enemies.length; i++) {
+        if (this.enemies[i].hit(projectile)) {
+          this.remove(this.enemies, i, this.enemies[i]);
+          this.remove(this.playerProjectiles, index, projectile);
+          break;
+        }
+      }
+    },
+    bunkerCollision(bunkerNum, index, projectile) {
+      let bunker = this.bunkers[bunkerNum];
+      for (var i = 0; i < bunker.length; i++) {
+        if (bunker[i].hit(projectile)) {
+          this.remove(bunker, i, bunker[i]);
+          this.remove(this.playerProjectiles, index, projectile);
+          break;
         }
       }
     },
@@ -106,10 +126,12 @@ export default {
     }
     // Initialize bunkers
     for (var k = 0; k < 5; k++) {
+      this.bunkers[k] = [];
       for (i = 0; i < 5; i++) {
         for (j = 0; j < 8; j++) {
-          this.bunkers.push(new Bunker(this.context, 60 + (k * 125)  + (j * 10), 290 + (i * 10)));
-          this.bunkers[(k * 40) + i * 8 + j].show();
+          this.bunkers[k].push(new Bunker(this.context, 60 + (k * 125)  + (j * 10), 290 + (i * 10)));
+          this.bunkers[k][i * 8 + j].show();
+          console.log(60 + k * 125);
         }
       }
     }

@@ -13,8 +13,14 @@ export class Bunker {
     this.context.fillRect(this.x, this.y, 10, 10);
   }
 
+  clear() {
+    this.context.clearRect(this.x, this.y, 10, 10);
+    this.context.fillStyle = 'black';
+    this.context.fillRect(this.x, this.y, 10, 10);
+  }
+
   hit(projectile) {
-    return Math.abs(projectile.x - this.x) < 20 && projectile.y - this.y < 15;
+    return Math.abs(projectile.x - this.x) < 5 && projectile.y - this.y < 5;
   }
 
 }
