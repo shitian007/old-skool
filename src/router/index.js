@@ -7,7 +7,7 @@ import SpaceInvaders from '@/components/space-invaders/SpaceInvaders';
 Vue.use(Router);
 
 export default new Router({
-  // Remove hashbang
+  // Hashbang removal
   mode: 'history',
   routes: [
     {

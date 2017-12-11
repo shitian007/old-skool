@@ -26,7 +26,7 @@ const ENEMY_LEFT_BOUND = 20;
 const ENEMY_MOVE_LEFT = -1;
 const ENEMY_MOVE_RIGHT = 1;
 
-// Bunker Constants
+// Bunker Initialization Constants
 const NUM_BUNKERS = 5;
 const BUNKER_WIDTH_BLOCKS = 8;
 const BUNKER_HEIGHT_BLOCKS = 5;
@@ -35,6 +35,7 @@ const BUNKER_START_Y_COORD = 290;
 const BUNKER_WIDTH_SPACING = 125;
 const BUNKER_BLOCK_WIDTH_SPACING = 10;
 const BUNKER_BLOCK_HEIGHT_SPACING = 10;
+// Bunker Collision Constants
 const FIRST_BUNKER_RIGHTBOUND = 140;
 const SECOND_BUNKER_RIGHTBOUND = 265;
 const THIRD_BUNKER_RIGHTBOUND = 390;
@@ -89,8 +90,8 @@ export default {
     },
     // Enemy Movement limited by the left and right boundaries of the enemies as a block
     enemyMove() {
-      let xMax = 0;
-      let xMin = 500;
+      let xMax = ENEMY_LEFT_BOUND;
+      let xMin = ENEMY_RIGHT_BOUND;
       for (var i = 0; i < this.enemies.length; i++) {
         xMax = this.enemies[i].x > xMax ? this.enemies[i].x : xMax;
         xMin = this.enemies[i].x < xMin ? this.enemies[i].x : xMin;
@@ -118,14 +119,12 @@ export default {
         if (projectile.y < PROJECTILE_UPPER_LIMIT) {
           this.remove(this.playerProjectiles, i, projectile);
         } else {
-          // Check bunker collision
           projectile.x < FIRST_BUNKER_RIGHTBOUND ? this.bunkerCollision(0, i, projectile) :
           projectile.x < SECOND_BUNKER_RIGHTBOUND ? this.bunkerCollision(1, i, projectile) :
           projectile.x < THIRD_BUNKER_RIGHTBOUND ? this.bunkerCollision(2, i, projectile) :
           projectile.x < FOURTH_BUNKER_RIGHTBOUND ? this.bunkerCollision(3, i, projectile) :
           projectile.x < FIFTH_BUNKER_RIGHTBOUND ? this.bunkerCollision(4, i, projectile) :
           {};
-          // Check enemy collision if projectile still exists
           if (projectile) {
             this.enemyCollision(i, projectile);
           }
@@ -220,7 +219,9 @@ export default {
           window.clearInterval(self.intervalID);
           self.gameoverScreen();
         }
-        if (self.shotTimer > 0) self.shotTimer--;
+        if (self.shotTimer > 0) {
+          self.shotTimer--;
+        }
         self.playerMove();
         self.projectileMove();
         self.enemyMove();
