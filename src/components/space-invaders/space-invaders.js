@@ -18,7 +18,9 @@ export default {
       enemyProjectiles: [],
       ePIntervalIDs: [],
       bunkers: [],
-      shotTimer: 0
+      shotTimer: 0,
+      intervalID: null,
+      gameover: -1
     };
   },
   methods: {
@@ -38,7 +40,7 @@ export default {
       } else if (input == " " && this.shotTimer == 0) {
         let playerProjectile = this.player.shoot();
         this.playerProjectiles.push(playerProjectile);
-        this.shotTimer = 10;
+        this.shotTimer = 20;
       }
     },
     playerMove() {
@@ -79,7 +81,7 @@ export default {
             projectile.x < 390 ? this.bunkerCollision(2, i, projectile) :
             projectile.x < 515 ? this.bunkerCollision(3, i, projectile) :
             this.bunkerCollision(4, i, projectile);
-          // Check enemy collision
+          // Check enemy collision if projectile still exists
           if (projectile) this.enemyCollision(i, projectile);
         }
       }
@@ -107,47 +109,67 @@ export default {
     remove(arr, index, obj) {
       obj.clear();
       arr.splice(index, 1);
+    },
+    // Checks: enemies destroyed, bunkers destroyed
+    checkGameState() {
+      // Check if all enemies destroyed
+      if (this.enemies.length < 1) {
+        return 1;
+      }
+      // Check if all bunkers destroyed
+      for (var i = 0; i < 5; i++) {
+        if (this.bunkers[i].length == 0) {
+          return -1;
+        }
+      }
+      return -1;
+    },
+    init() {
+      let self = this;
+      // Get context and initialize canvas
+      this.context = this.$refs.canvas.getContext('2d');
+      initMethods.init(this.context);
+      // Instantiate player
+      this.player= new playerShip(this.context);
+      this.player.show();
+      // Initialize enemies
+      for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 12; j++) {
+          this.enemies.push(new EnemySaucer(this.context, (j+1) * 50, 120 - ((i+1) * 25)));
+          this.enemies[i * 12 + j].show();
+        }
+      }
+      // Initialize bunkers
+      for (var k = 0; k < 5; k++) {
+        this.bunkers[k] = [];
+        for (i = 0; i < 5; i++) {
+          for (j = 0; j < 8; j++) {
+            this.bunkers[k].push(new Bunker(this.context, 60 + (k * 125)  + (j * 10), 290 + (i * 10)));
+            this.bunkers[k][i * 8 + j].show();
+          }
+        }
+      }
+      // Capture user keypress
+      window.addEventListener("keydown", function(e) {
+        self.keyDown(e);
+      });
+      window.addEventListener("keyup", function(e) {
+        self.keyUp(e);
+      });
+      // Interval updates
+      self.intervalID = window.setInterval(function() {
+        if (self.gameover != -1) {
+          window.clearInterval(self.intervalID);
+          self.gameoverScreen();
+        }
+        if (self.shotTimer > 0) self.shotTimer--;
+        self.playerMove();
+        self.projectileMove();
+        self.enemyMove();
+      }, 15);
     }
   },
   mounted() {
-    let self = this;
-    // Get context and initialize canvas
-    this.context = this.$refs.canvas.getContext('2d');
-    initMethods.init(this.context);
-    // Instantiate player
-    this.player= new playerShip(this.context);
-    this.player.show();
-    // Initialize enemies
-    for (var i = 0; i < 4; i++) {
-      for (var j = 0; j < 12; j++) {
-        this.enemies.push(new EnemySaucer(this.context, (j+1) * 50, 120 - ((i+1) * 25)));
-        this.enemies[i * 12 + j].show();
-      }
-    }
-    // Initialize bunkers
-    for (var k = 0; k < 5; k++) {
-      this.bunkers[k] = [];
-      for (i = 0; i < 5; i++) {
-        for (j = 0; j < 8; j++) {
-          this.bunkers[k].push(new Bunker(this.context, 60 + (k * 125)  + (j * 10), 290 + (i * 10)));
-          this.bunkers[k][i * 8 + j].show();
-          console.log(60 + k * 125);
-        }
-      }
-    }
-    // Capture user keypress
-    window.addEventListener("keydown", function(e) {
-      self.keyDown(e);
-    });
-    window.addEventListener("keyup", function(e) {
-      self.keyUp(e);
-    });
-    // Interval updates
-    window.setInterval(function() {
-      if (self.shotTimer > 0) self.shotTimer--;
-      self.playerMove();
-      self.projectileMove();
-      self.enemyMove();
-    }, 15);
+    if (this.gameover == -1) this.init();
   }
 };
