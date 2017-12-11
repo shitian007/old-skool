@@ -1,5 +1,6 @@
 import { constants } from './init.js';
 
+const BUNKER_COLOR = 'grey';
 const BUNKER_WIDTH = 10;
 const BUNKER_HEIGHT = 10;
 const HIT_BOX_RANGE = 5;
@@ -14,13 +15,13 @@ export class Bunker {
   }
 
   show() {
-    this.context.fillStyle = 'grey';
+    this.context.fillStyle = BUNKER_COLOR;
     this.context.fillRect(this.x, this.y, BUNKER_WIDTH, BUNKER_HEIGHT);
   }
 
   clear() {
     this.context.clearRect(this.x, this.y, BUNKER_WIDTH, BUNKER_HEIGHT);
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = constants.CANVAS_COLOR;
     this.context.fillRect(this.x, this.y, BUNKER_WIDTH, BUNKER_HEIGHT);
   }
 

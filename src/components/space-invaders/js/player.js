@@ -1,6 +1,7 @@
 import { constants } from './init.js';
 import { Projectile } from './projectile.js';
 
+const PLAYER_COLOR = 'white';
 const START_HOR_POSITION = constants.WIDTH / 2;
 const START_VER_POSITION = constants.HEIGHT - 22;
 const PLAYER_WIDTH = 20;
@@ -16,13 +17,13 @@ export class playerShip {
   }
 
   show() {
-    this.context.fillStyle = 'white';
+    this.context.fillStyle = PLAYER_COLOR;
     this.context.fillRect(this.x, START_VER_POSITION, PLAYER_WIDTH, PLAYER_HEIGHT);
   }
 
   clear() {
     this.context.clearRect(this.x, START_VER_POSITION, PLAYER_WIDTH, PLAYER_HEIGHT);
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = constants.CANVAS_COLOR;
     this.context.fillRect(this.x, START_VER_POSITION, PLAYER_WIDTH, PLAYER_HEIGHT);
   }
 

@@ -85,8 +85,12 @@ export default {
     },
     // Player movement limited by right and left bounds of canvas
     playerMove() {
-      if (this.playerMovement == "r" && this.player.x < PLAYER_RIGHT_BOUND) this.player.move("right");
-      if (this.playerMovement == "l" && this.player.x > PLAYER_LEFT_BOUND) this.player.move("left");
+      if (this.playerMovement == "r" && this.player.x < PLAYER_RIGHT_BOUND) {
+        this.player.move("right");
+      }
+      if (this.playerMovement == "l" && this.player.x > PLAYER_LEFT_BOUND) {
+        this.player.move("left");
+      }
     },
     // Enemy Movement limited by the left and right boundaries of the enemies as a block
     enemyMove() {
@@ -229,6 +233,8 @@ export default {
     }
   },
   mounted() {
-    if (this.gameover == GAME_OVER) this.init();
+    if (this.gameover == GAME_OVER) {
+      this.init();
+    }
   }
 };

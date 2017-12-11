@@ -1,5 +1,6 @@
 import { constants } from './init.js';
 
+const PROJECTILE_COLOR = 'blue';
 const PROJECTILE_WIDTH = 5;
 const PROJECTILE_HEIGHT = 10;
 const HOR_MOVEMENT = 1;
@@ -17,13 +18,13 @@ export class Projectile {
   }
 
   show() {
-    this.context.fillStyle = 'blue';
+    this.context.fillStyle = PROJECTILE_COLOR;
     this.context.fillRect(this.x, this.y, 5, 10);
   }
 
   clear() {
     this.context.clearRect(this.x, this.y, 5, 10);
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = constants.CANVAS_COLOR;
     this.context.fillRect(this.x, this.y, 5, 10);
   }
 

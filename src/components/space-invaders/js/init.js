@@ -4,7 +4,8 @@ const CANVAS_WIDTH= 1000;
 const CANVAS_HEIGHT = 400;
 let constants = {
   WIDTH : 700,
-  HEIGHT : 400
+  HEIGHT : 400,
+  CANVAS_COLOR : 'black'
 };
 
 let initMethods = {

@@ -1,5 +1,6 @@
 import { constants } from './init.js';
 
+const ENEMY_COLOR = 'red';
 const ENEMY_SAUCER_WIDTH = 30;
 const ENEMY_SAUCER_HEIGHT = 20;
 const HIT_BOX_HOR_RANGE = 20;
@@ -17,13 +18,13 @@ export class EnemySaucer {
 
   // Draws enemy saucer onto canvas
   show() {
-    this.context.fillStyle = 'red';
+    this.context.fillStyle = ENEMY_COLOR;
     this.context.fillRect(this.x, this.y, ENEMY_SAUCER_WIDTH, ENEMY_SAUCER_HEIGHT);
   }
 
   clear() {
     this.context.clearRect(this.x, this.y, ENEMY_SAUCER_WIDTH, ENEMY_SAUCER_HEIGHT);
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = constants.CANVAS_COLOR;
     this.context.fillRect(this.x, this.y, ENEMY_SAUCER_WIDTH, ENEMY_SAUCER_HEIGHT);
   }
 
