@@ -1,33 +1,38 @@
 import { constants } from './init.js';
 import { Projectile } from './projectile.js';
 
+const START_HOR_POSITION = constants.WIDTH / 2;
+const START_VER_POSITION = constants.HEIGHT - 22;
+const PLAYER_WIDTH = 20;
+const PLAYER_HEIGHT = 20;
+const HOR_MOVEMENT = 5;
+
+// Player ship with constant vertical position
 export class playerShip {
 
   constructor(context) {
-    this.x = constants.WIDTH / 2;
+    this.x = START_HOR_POSITION;
     this.context = context;
   }
-  // Draws the ship on the canvas
+
   show() {
-    // Args: x, y, width, height
     this.context.fillStyle = 'white';
-    this.context.fillRect(this.x, constants.HEIGHT - 22, 20, 20);
+    this.context.fillRect(this.x, START_VER_POSITION, PLAYER_WIDTH, PLAYER_HEIGHT);
   }
 
   clear() {
-    this.context.clearRect(this.x, constants.HEIGHT - 22, 20, 20);
+    this.context.clearRect(this.x, START_VER_POSITION, PLAYER_WIDTH, PLAYER_HEIGHT);
     this.context.fillStyle = 'black';
-    this.context.fillRect(this.x, constants.HEIGHT - 22, 20, 20);
+    this.context.fillRect(this.x, START_VER_POSITION, PLAYER_WIDTH, PLAYER_HEIGHT);
   }
 
+  // Removes previous drawing of ship and redraws at new position
   move(dir) {
-    // Remove previous drawing of player ship
     this.clear();
-    // Draw player ship at updated position
     if (dir == "right") {
-      this.x += 5;
+      this.x += HOR_MOVEMENT;
     } else if (dir == "left") {
-      this.x -= 5;
+      this.x -= HOR_MOVEMENT;
     }
     this.show();
   }
@@ -36,6 +41,5 @@ export class playerShip {
     let pewPew = new Projectile(this.context, this.x);
     return pewPew;
   }
-
 
 }

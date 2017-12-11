@@ -1,10 +1,18 @@
 import { constants } from './init.js';
 
+const PROJECTILE_WIDTH = 5;
+const PROJECTILE_HEIGHT = 10;
+const HOR_MOVEMENT = 1;
+const VER_MOVEMENT = 10;
+const START_HOR_POSITION_OFFSET = 7;
+const START_VER_POSITION = constants.HEIGHT - 35;
+
+// Player projectile fired at enemies
 export class Projectile {
 
   constructor(context, x) {
-    this.x = x + 7;
-    this.y = constants.HEIGHT - 35;
+    this.x = x + START_HOR_POSITION_OFFSET;
+    this.y = START_VER_POSITION;
     this.context = context;
   }
 
@@ -23,7 +31,7 @@ export class Projectile {
     // Remove previous projectile drawing
     this.clear();
     // Move projectile up
-    this.y -= 10;
+    this.y -= VER_MOVEMENT;
     // Draw projectile at updated position
     this.show();
   }
